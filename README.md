@@ -7,4 +7,4 @@ This desktop app lets you convert Mapudungun orthography into IPA using a live G
 - Tracks line/word/character counts
 - Works on Ubuntu (maybe Windows in the future)
 
-![Screenshot](mapudungun_ipa_gui.png)
+![Screenshot](screenshots/mapudungun_ipa_gui.png)
