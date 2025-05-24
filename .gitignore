@@ -1,7 +1,2 @@
-*.deb
-
-*.pyc
-__pycache__/
-
-deb-package
-docs
+deb-package/
+docs/
