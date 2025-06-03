@@ -3,6 +3,7 @@
 import tkinter as tk
 from tkinter import messagebox, filedialog
 from tkinter.filedialog import askopenfilename
+from version import __version__
 
 # ─────────────────────────────────────────────────────────────
 # 🧩 IPA MAPPING DEFINITIONS
@@ -207,7 +208,7 @@ def show_preferences():
 # ─────────────────────────────────────────────────────────────
 
 def show_about():
-    messagebox.showinfo("About", "Mapudungun → IPA Converter\nCreated by Aldo Berríos\nVersion 1.0")
+    messagebox.showinfo("About", f"Mapudungun → IPA Converter\nCreated by Aldo Berríos\nVersion {__version__}")
 
 def show_support_popup():
     help_win = tk.Toplevel(root)
@@ -287,6 +288,39 @@ def show_ipa_chart():
             tk.Label(vowel_frame, text=symbol, font=("Arial", 10), borderwidth=1, relief="solid", padx=5, pady=3)\
                 .grid(row=row_idx, column=col_idx, sticky="nsew")
 
+import os
+
+def show_changelog():
+    # Get the path where the script is located
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    changelog_path = os.path.join(base_dir, "CHANGELOG.md")
+
+    if not os.path.exists(changelog_path):
+        messagebox.showerror("Error", "CHANGELOG.md file not found.")
+        return
+
+    with open(changelog_path, encoding="utf-8") as f:
+        content = f.read()
+
+    popup = tk.Toplevel(root)
+    popup.title("Changelog")
+    popup.geometry("600x500")
+
+    frame = tk.Frame(popup)
+    frame.pack(fill="both", expand=True)
+
+    scrollbar = tk.Scrollbar(frame)
+    scrollbar.pack(side="right", fill="y")
+
+    text_widget = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set, font=("Courier", 10))
+    text_widget.insert("1.0", content)
+    text_widget.config(state="disabled")
+    text_widget.pack(side="left", fill="both", expand=True)
+
+    scrollbar.config(command=text_widget.yview)
+
+    tk.Button(popup, text="Close", command=popup.destroy).pack(pady=10)
+
 # ─────────────────────────────────────────────────────────────
 # 🖼️ GUI SETUP
 # ─────────────────────────────────────────────────────────────
@@ -322,6 +356,7 @@ help_menu = tk.Menu(menu_bar, tearoff=0)
 help_menu.add_command(label="About", command=show_about)
 help_menu.add_command(label="Support", command=show_support_popup)
 help_menu.add_command(label="IPA Chart", command=show_ipa_chart)
+help_menu.add_command(label="Display Changelog", command=show_changelog)
 menu_bar.add_cascade(label="Help", menu=help_menu)
 root.config(menu=menu_bar)
 
